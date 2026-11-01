@@ -92,7 +92,7 @@ That is the whole system change. This repo applies **no tuning**: it does not to
 
 ## Customising
 
-- **Wallpaper** — `noctalia msg wallpaper-set /path/to/image.png`. Noctalia derives the whole palette from it (`source = "wallpaper"`, scheme `vibrant`), so the bar recolours itself.
+- **Wallpaper** — `noctalia msg wallpaper-set /path/to/image.png`. Noctalia derives the whole palette from it (`source = "wallpaper"`, scheme `vibrant`), so the bar recolours itself. If you overwrite the image file in place, re-run `wallpaper-set` — Noctalia watches its state file, not the image on disk.
 - **Bar opacity** — `background_opacity` and the capsule `opacity` values in `~/.config/noctalia/settings.toml` (`0.0` transparent → `1.0` solid).
 - **Terminal colours** — `~/.config/foot/foot.ini`.
 - **hyfetch** — `~/.config/hyfetch.json`; `preset` is any comma-separated hex list, `custom_ascii_path` any ASCII art file.

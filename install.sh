@@ -184,6 +184,7 @@ command -v xdg-user-dirs-update >/dev/null 2>&1 && xdg-user-dirs-update >/dev/nu
 
 if command -v noctalia >/dev/null 2>&1 && noctalia msg wallpaper-get >/dev/null 2>&1; then
   noctalia msg wallpaper-set "$WALL" >/dev/null 2>&1 && ok "wallpaper applied to Noctalia"
+  noctalia msg color-scheme-set wallpaper vibrant >/dev/null 2>&1 && ok "palette follows the wallpaper (vibrant)"
 else
   warn "Noctalia is not running — wallpaper/colours apply on next login"
 fi
