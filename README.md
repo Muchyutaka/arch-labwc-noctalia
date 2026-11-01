@@ -13,7 +13,7 @@ No GNOME, no KDE, no Plasma services — about 400 MB of RAM at idle on a 2-core
 | **Compositor** | labwc, 4 workspaces, 10 px window gaps, thumbnail switcher |
 | **Shell / bar** | Noctalia v5: floating translucent bar, two capsule clusters, wallpaper-derived palette |
 | **Terminal** | foot, Catppuccin Mocha, JetBrains Mono Nerd Font, 0.96 alpha |
-| **Login info** | hyfetch with a clean Arch logo and a 7-step rainbow |
+| **Login info** | hyfetch with a clean Arch logo in the default cyan; recolour anytime with `hyfetch -c` |
 | **Screenshots** | region / fullscreen / window, saved to `~/Pictures` + clipboard |
 | **Files** | Nautilus, MTP support, archive manager |
 | **Apps** | Brave, Discord, LocalSend (via AUR), Flatpak with Flathub |
@@ -94,7 +94,7 @@ That is the whole system change. This repo applies **no tuning**: it does not to
 - **Wallpaper** — `noctalia msg wallpaper-set /path/to/image.png`. Nothing is bundled: until you set one, Noctalia uses its own `/usr/share/noctalia/assets/noctalia-wallpaper.png`. Noctalia derives the whole palette from the active wallpaper (`source = "wallpaper"`, scheme `vibrant`), so the bar recolours itself. If you overwrite the image file in place, re-run `wallpaper-set` — Noctalia watches its state file, not the image on disk.
 - **Bar opacity** — `background_opacity` and the capsule `opacity` values in `~/.config/noctalia/settings.toml` (`0.0` transparent → `1.0` solid).
 - **Terminal colours** — `~/.config/foot/foot.ini`.
-- **hyfetch** — `~/.config/hyfetch.json`; `preset` is any comma-separated hex list, `custom_ascii_path` any ASCII art file.
+- **hyfetch** — `~/.config/hyfetch.json`; `preset` is any comma-separated hex list, `custom_ascii_path` any ASCII art file. The shipped default is a single cyan (`#94e2d5`), which is the Arch logo's normal colour. Run `hyfetch -c` for the interactive configurator (pick any preset, including `rainbow`); keep the custom ASCII path if you want to keep the clean logo.
 - **Keybinds** — `~/.config/labwc/rc.xml`.
 
 Note: Noctalia has no real background blur on labwc (the compositor does not implement a blur protocol), so transparency is flat, not frosted.
