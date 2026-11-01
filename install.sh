@@ -170,23 +170,14 @@ EOF
 fi
 
 # ── wallpaper ────────────────────────────────────────────────────────────────
-WALL_DIR="$HOME/Pictures/Wallpapers"
-WALL="$WALL_DIR/wallhaven-jey9qp.png"
-mkdir -p "$WALL_DIR"
-if [[ -f $WALL ]]; then
-  ok "wallpaper already present"
-else
-  install -m 0644 "$REPO_DIR/wallpapers/wallhaven-jey9qp.png" "$WALL"
-  ok "installed $WALL"
-fi
-
+# No wallpaper is bundled (copyright). Noctalia uses its own default at
+# /usr/share/noctalia/assets/noctalia-wallpaper.png until you set one.
 command -v xdg-user-dirs-update >/dev/null 2>&1 && xdg-user-dirs-update >/dev/null 2>&1 || true
 
 if command -v noctalia >/dev/null 2>&1 && noctalia msg wallpaper-get >/dev/null 2>&1; then
-  noctalia msg wallpaper-set "$WALL" >/dev/null 2>&1 && ok "wallpaper applied to Noctalia"
   noctalia msg color-scheme-set wallpaper vibrant >/dev/null 2>&1 && ok "palette follows the wallpaper (vibrant)"
 else
-  warn "Noctalia is not running — wallpaper/colours apply on next login"
+  warn "Noctalia is not running — colours apply on next login"
 fi
 
 # ── system-level (opt-in) ────────────────────────────────────────────────────
@@ -235,5 +226,7 @@ Next steps:
 
 If Noctalia looks unstyled on first login, run:
   noctalia msg config-reload
-  noctalia msg wallpaper-set "$WALL"
+
+No wallpaper is bundled — Noctalia shows its default until you set one:
+  noctalia msg wallpaper-set /path/to/image.png
 EOF

@@ -2,7 +2,7 @@
 
 A small, fast Wayland desktop for Arch Linux: **labwc** (stacking compositor) + **Noctalia v5** (bar, launcher, control centre), with a Catppuccin terminal and a clean Arch logo in hyfetch.
 
-![bar](docs/bar.png)
+> No wallpaper is bundled. Noctalia starts on its own default image, and any wallpaper you set recolours the whole UI automatically.
 
 No GNOME, no KDE, no Plasma services — about 400 MB of RAM at idle on a 2-core Celeron.
 
@@ -77,7 +77,6 @@ Scroll-wheel workspace switching is deliberately disabled.
 ~/.config/hyfetch.json
 ~/.config/hyfetch/arch_clean.txt
 ~/.bashrc                       (one guarded block appended)
-~/Pictures/Wallpapers/wallhaven-jey9qp.png
 ```
 
 **System, only if you accept the prompt:**
@@ -92,7 +91,7 @@ That is the whole system change. This repo applies **no tuning**: it does not to
 
 ## Customising
 
-- **Wallpaper** — `noctalia msg wallpaper-set /path/to/image.png`. Noctalia derives the whole palette from it (`source = "wallpaper"`, scheme `vibrant`), so the bar recolours itself. If you overwrite the image file in place, re-run `wallpaper-set` — Noctalia watches its state file, not the image on disk.
+- **Wallpaper** — `noctalia msg wallpaper-set /path/to/image.png`. Nothing is bundled: until you set one, Noctalia uses its own `/usr/share/noctalia/assets/noctalia-wallpaper.png`. Noctalia derives the whole palette from the active wallpaper (`source = "wallpaper"`, scheme `vibrant`), so the bar recolours itself. If you overwrite the image file in place, re-run `wallpaper-set` — Noctalia watches its state file, not the image on disk.
 - **Bar opacity** — `background_opacity` and the capsule `opacity` values in `~/.config/noctalia/settings.toml` (`0.0` transparent → `1.0` solid).
 - **Terminal colours** — `~/.config/foot/foot.ini`.
 - **hyfetch** — `~/.config/hyfetch.json`; `preset` is any comma-separated hex list, `custom_ascii_path` any ASCII art file.
@@ -107,8 +106,6 @@ install.sh                  main installer
 packages/                   base / intel / aur / optional package lists
 config/                     dotfiles copied into $HOME
 scripts/install-system.sh   enables services + display manager
-wallpapers/                 default wallpaper
-docs/bar.png                bar preview
 ```
 
 ## Troubleshooting
@@ -116,7 +113,7 @@ docs/bar.png                bar preview
 **Bar is unstyled or the wrong colour**
 ```bash
 noctalia msg config-reload
-noctalia msg wallpaper-set ~/Pictures/Wallpapers/wallhaven-jey9qp.png
+noctalia msg wallpaper-set /path/to/image.png
 ```
 
 **No polkit password dialog when mounting a disk** — make sure `polkit-gnome` is installed and `~/.config/labwc/autostart` starts the agent (it does by default here).
@@ -130,8 +127,7 @@ noctalia msg wallpaper-set ~/Pictures/Wallpapers/wallhaven-jey9qp.png
 - [labwc](https://labwc.github.io/)
 - [Noctalia](https://docs.noctalia.dev/)
 - [Catppuccin](https://catppuccin.com/)
-- Wallpaper from [Wallhaven](https://wallhaven.cc/) (`wallhaven-jey9qp`)
 
 ## License
 
-MIT — see [LICENSE](LICENSE). The wallpaper is included for convenience and keeps its original licence.
+MIT — see [LICENSE](LICENSE). No wallpaper or third-party image is included.
