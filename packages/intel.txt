@@ -1,0 +1,9 @@
+# Installed automatically on Intel CPUs.
+# Drop this file if you are on AMD/ARM — the desktop itself is vendor-neutral.
+intel-ucode
+intel-media-driver
+libva-intel-driver
+libvpl
+vpl-gpu-rt
+vulkan-intel
+sof-firmware

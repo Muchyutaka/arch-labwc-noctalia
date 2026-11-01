@@ -1,0 +1,77 @@
+[theme]
+source = "wallpaper"
+wallpaper_scheme = "vibrant"
+mode = "dark"
+
+# ── Bar ──────────────────────────────────────────────────────────────────────
+# Floating, slim, full-feature bar. Status icons are grouped into two capsules
+# instead of sitting loose on the bar.
+[bar.default]
+position = "top"
+thickness = 32
+margin_ends = 80
+margin_edge = 4
+padding = 12
+widget_spacing = 6
+background_opacity = 0.90
+border = "outline_variant"
+border_width = 1
+radius = 10
+shadow = true
+
+start = ["launcher", "wallpaper", "workspaces"]
+center = ["clock"]
+end = ["media", "group:sys", "group:apps", "session"]
+
+# System status cluster: network, bluetooth, volume, brightness, battery
+[[bar.default.capsule_group]]
+id = "sys"
+members = ["network", "bluetooth", "volume", "brightness", "battery"]
+fill = "surface_container"
+opacity = 0.86
+padding = 6
+radius = 8
+
+# App / action cluster: tray, notifications, clipboard, control center
+[[bar.default.capsule_group]]
+id = "apps"
+members = ["tray", "notifications", "clipboard", "control-center"]
+fill = "surface_container"
+opacity = 0.86
+padding = 6
+radius = 8
+
+# ── Widgets ──────────────────────────────────────────────────────────────────
+# Media: compact album art only, hidden when nothing is playing
+[widget.media]
+album_art_only = true
+art_size = 18
+hide_when_no_media = true
+hide_when_idle = true
+
+# Icons only, no text labels
+[widget.network]
+show_label = false
+
+[widget.volume]
+show_label = false
+
+[widget.brightness]
+show_label = false
+
+# Bluetooth only shows up when there is actually a device connected
+[widget.bluetooth]
+hide_when_adapter_off = true
+hide_when_no_connected_device = true
+
+# Workspaces: dots + one expanded pill for the active workspace
+[widget.workspaces]
+style = "focus_hint"
+show_icons = true
+active_pill_size = 2.2
+
+# Session menu as a single accent-coloured pill at the far right
+[widget.session]
+capsule = true
+capsule_fill = "primary"
+capsule_foreground = "on_primary"

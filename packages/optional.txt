@@ -1,0 +1,5 @@
+# Optional extras that were on the original machine but are not required
+# for the look or the keybinds. Install with: sudo pacman -S --needed $(cat packages/optional.txt)
+android-tools
+scrcpy
+opencode

@@ -1,0 +1,149 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<labwc_config>
+
+  <core>
+    <gap>10</gap>
+  </core>
+
+  <!-- Four virtual workspaces -->
+  <desktops>
+    <popupTime>500</popupTime>
+    <names>
+      <name>1</name>
+      <name>2</name>
+      <name>3</name>
+      <name>4</name>
+    </names>
+  </desktops>
+
+  <!-- Noctalia / Catppuccin window decorations -->
+  <theme>
+    <name>noctalia</name>
+    <cornerRadius>8</cornerRadius>
+    <font place="ActiveWindow">
+      <name>Sans</name>
+      <size>10</size>
+      <weight>bold</weight>
+    </font>
+  </theme>
+
+  <!-- Thumbnail-based window switcher -->
+  <windowSwitcher preview="no" outlines="yes">
+    <osd style="thumbnail"/>
+  </windowSwitcher>
+
+  <keyboard>
+    <!-- Include the default Labwc keybinds -->
+    <default />
+
+    <!-- Noctalia core keys -->
+    <keybind key="W-space">
+      <action name="Execute">
+        <command>noctalia msg panel-toggle launcher</command>
+      </action>
+    </keybind>
+
+    <!-- Screenshots: Print = region, Shift+Print = fullscreen, Ctrl+Print = window -->
+    <keybind key="Print">
+      <action name="Execute">
+        <command>noctalia msg screenshot-region</command>
+      </action>
+    </keybind>
+    <keybind key="S-Print">
+      <action name="Execute">
+        <command>noctalia msg screenshot-fullscreen</command>
+      </action>
+    </keybind>
+    <keybind key="C-Print">
+      <action name="Execute">
+        <command>noctalia msg screenshot-window</command>
+      </action>
+    </keybind>
+    <keybind key="W-S-s">
+      <action name="Execute">
+        <command>noctalia msg screenshot-region</command>
+      </action>
+    </keybind>
+    <keybind key="W-s">
+      <action name="Execute">
+        <command>noctalia msg panel-toggle control-center</command>
+      </action>
+    </keybind>
+    <keybind key="W-,">
+      <action name="Execute">
+        <command>noctalia msg settings-toggle</command>
+      </action>
+    </keybind>
+
+    <!-- App launchers -->
+    <keybind key="W-q">
+      <action name="Close"/>
+    </keybind>
+    <keybind key="W-S-f">
+      <action name="ToggleFullscreen"/>
+    </keybind>
+    <keybind key="W-z">
+      <action name="Execute">
+        <command>brave</command>
+      </action>
+    </keybind>
+    <keybind key="W-f">
+      <action name="Execute">
+        <command>nautilus</command>
+      </action>
+    </keybind>
+
+    <!-- Workspaces -->
+    <keybind key="W-1"><action name="GoToDesktop" to="1"/></keybind>
+    <keybind key="W-2"><action name="GoToDesktop" to="2"/></keybind>
+    <keybind key="W-3"><action name="GoToDesktop" to="3"/></keybind>
+    <keybind key="W-4"><action name="GoToDesktop" to="4"/></keybind>
+    <keybind key="W-S-1"><action name="SendToDesktop" to="1" follow="yes"/></keybind>
+    <keybind key="W-S-2"><action name="SendToDesktop" to="2" follow="yes"/></keybind>
+    <keybind key="W-S-3"><action name="SendToDesktop" to="3" follow="yes"/></keybind>
+    <keybind key="W-S-4"><action name="SendToDesktop" to="4" follow="yes"/></keybind>
+    <keybind key="W-Page_Up"><action name="GoToDesktop" to="left" wrap="yes"/></keybind>
+    <keybind key="W-Page_Down"><action name="GoToDesktop" to="right" wrap="yes"/></keybind>
+    <keybind key="W-S-Page_Up"><action name="SendToDesktop" to="left" follow="yes"/></keybind>
+    <keybind key="W-S-Page_Down"><action name="SendToDesktop" to="right" follow="yes"/></keybind>
+
+    <!-- Media keys -->
+    <keybind key="XF86AudioRaiseVolume">
+      <action name="Execute">
+        <command>noctalia msg volume-up</command>
+      </action>
+    </keybind>
+    <keybind key="XF86AudioLowerVolume">
+      <action name="Execute">
+        <command>noctalia msg volume-down</command>
+      </action>
+    </keybind>
+    <keybind key="XF86AudioMute">
+      <action name="Execute">
+        <command>noctalia msg volume-mute</command>
+      </action>
+    </keybind>
+    <keybind key="XF86MonBrightnessUp">
+      <action name="Execute">
+        <command>noctalia msg brightness-up</command>
+      </action>
+    </keybind>
+    <keybind key="XF86MonBrightnessDown">
+      <action name="Execute">
+        <command>noctalia msg brightness-down</command>
+      </action>
+    </keybind>
+  </keyboard>
+
+  <!-- Keep default mousebinds, but stop the scroll wheel from switching desktops -->
+  <mouse>
+    <default />
+    <context name="Desktop">
+      <mousebind direction="Up" action="Scroll" />
+      <mousebind direction="Down" action="Scroll" />
+      <mousebind direction="Left" action="Scroll" />
+      <mousebind direction="Right" action="Scroll" />
+    </context>
+  </mouse>
+
+</labwc_config>

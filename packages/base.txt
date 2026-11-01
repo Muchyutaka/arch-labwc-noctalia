@@ -1,0 +1,60 @@
+# ── Compositor + desktop shell ───────────────────────────────────────────────
+labwc
+noctalia
+foot
+wlopm
+xorg-xwayland
+polkit-gnome
+grim
+slurp
+wl-clipboard
+brightnessctl
+
+# ── Audio ────────────────────────────────────────────────────────────────────
+pipewire
+pipewire-pulse
+pipewire-alsa
+pipewire-jack
+wireplumber
+pavucontrol
+gst-plugin-pipewire
+
+# ── Network + Bluetooth ──────────────────────────────────────────────────────
+networkmanager
+bluez
+bluez-utils
+
+# ── Files + apps ─────────────────────────────────────────────────────────────
+nautilus
+gvfs
+gvfs-mtp
+sushi
+file-roller
+discord
+ntfs-3g
+xdg-utils
+
+# ── Fonts ────────────────────────────────────────────────────────────────────
+ttf-jetbrains-mono-nerd
+noto-fonts
+noto-fonts-emoji
+
+# ── Build tools (makepkg / AUR) ──────────────────────────────────────────────
+base-devel
+
+# ── Terminal info ────────────────────────────────────────────────────────────
+hyfetch
+fastfetch
+htop
+vim
+nano
+git
+wget
+
+# ── Flatpak ──────────────────────────────────────────────────────────────────
+flatpak
+libayatana-appindicator
+libayatana-indicator
+
+# ── Display manager ──────────────────────────────────────────────────────────
+ly

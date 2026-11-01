@@ -1,0 +1,7 @@
+# editor / OS noise
+*.swp
+*~
+.DS_Store
+
+# installer backups
+*.bak.*

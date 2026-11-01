@@ -1,0 +1,7 @@
+# ~/.config/labwc/autostart — executed by /bin/sh at session start
+
+# Start the Noctalia desktop shell (daemon mode returns once initialized)
+noctalia --daemon &
+
+# Polkit authentication agent — required for mounting disks from the GUI
+/usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1 &
