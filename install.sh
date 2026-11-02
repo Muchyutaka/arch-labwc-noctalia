@@ -159,6 +159,15 @@ else
   cat >> "$BASHRC" <<'EOF'
 
 # >>> arch-labwc-noctalia >>>
+# Pin the clean Arch logo and trimmed output, even after `hyfetch -c`.
+# Colours stay changeable: hyfetch -c, or hyfetch -p <preset>.
+hyfetch() {
+    command hyfetch \
+        --ascii-file "$HOME/.config/hyfetch/arch_clean.txt" \
+        --args="--structure Title:Separator:OS:Kernel:Uptime:WM:CPU:GPU:Memory:Disk:Battery:LocalIp" \
+        "$@"
+}
+
 # Show system info once per terminal session
 if [[ -z ${HYFETCH_SHOWN:-} ]] && command -v hyfetch >/dev/null; then
     hyfetch

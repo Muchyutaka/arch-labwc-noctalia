@@ -94,7 +94,7 @@ That is the whole system change. This repo applies **no tuning**: it does not to
 - **Wallpaper** — `noctalia msg wallpaper-set /path/to/image.png`. Nothing is bundled: until you set one, Noctalia uses its own `/usr/share/noctalia/assets/noctalia-wallpaper.png`. Noctalia derives the whole palette from the active wallpaper (`source = "wallpaper"`, scheme `vibrant`), so the bar recolours itself. If you overwrite the image file in place, re-run `wallpaper-set` — Noctalia watches its state file, not the image on disk.
 - **Bar opacity** — `background_opacity` and the capsule `opacity` values in `~/.config/noctalia/settings.toml` (`0.0` transparent → `1.0` solid).
 - **Terminal colours** — `~/.config/foot/foot.ini`.
-- **hyfetch** — `~/.config/hyfetch.json`; `preset` is any comma-separated hex list, `custom_ascii_path` any ASCII art file. The shipped default is a single cyan (`#94e2d5`), which is the Arch logo's normal colour. Run `hyfetch -c` for the interactive configurator (pick any preset, including `rainbow`); keep the custom ASCII path if you want to keep the clean logo.
+- **hyfetch** — `~/.config/hyfetch.json`; `preset` is any comma-separated hex list, `custom_ascii_path` any ASCII art file. The shipped default is a single cyan (`#94e2d5`), which is the Arch logo's normal colour. Run `hyfetch -c` for the interactive configurator (pick any preset, including `rainbow`) — the `.bashrc` wrapper re-applies the clean logo and trimmed `--structure` afterwards, so the wizard only changes colours.
 - **Keybinds** — `~/.config/labwc/rc.xml`.
 
 Note: Noctalia has no real background blur on labwc (the compositor does not implement a blur protocol), so transparency is flat, not frosted.
