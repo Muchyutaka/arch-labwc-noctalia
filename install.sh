@@ -18,6 +18,7 @@ STAMP="$(date +%Y%m%d-%H%M%S)"
 
 WITH_PACKAGES=1
 WITH_SYSTEM="ask"
+WITH_WALLPAPERS=1
 ASSUME_YES=0
 
 # ── pretty output ────────────────────────────────────────────────────────────
@@ -39,22 +40,24 @@ ${C_BOLD}arch-labwc-noctalia installer${C_RESET}
 Usage: ./install.sh [options]
 
 Options:
-  --no-packages   Skip pacman/AUR installation (configs only)
-  --no-system     Skip enabling services and the display manager
-  --system        Enable services and display manager without asking
-  --yes, -y       Assume "yes" for every prompt
-  -h, --help      Show this help
+  --no-packages    Skip pacman/AUR installation (configs only)
+  --no-system      Skip enabling services and the display manager
+  --no-wallpapers  Skip downloading the five free-use wallpapers
+  --system         Enable services and display manager without asking
+  --yes, -y        Assume "yes" for every prompt
+  -h, --help       Show this help
 
-Without flags the script installs packages + dotfiles, then asks once
-whether to apply the system-level setup.
+Without flags the script installs packages + dotfiles + wallpapers, then
+asks once whether to apply the system-level setup.
 EOF
 }
 
 while (($#)); do
   case "$1" in
-    --no-packages) WITH_PACKAGES=0 ;;
-    --no-system)   WITH_SYSTEM=0 ;;
-    --system)      WITH_SYSTEM=1 ;;
+    --no-packages)   WITH_PACKAGES=0 ;;
+    --no-system)     WITH_SYSTEM=0 ;;
+    --no-wallpapers) WITH_WALLPAPERS=0 ;;
+    --system)        WITH_SYSTEM=1 ;;
     --yes|-y)      ASSUME_YES=1 ;;
     -h|--help)     usage; exit 0 ;;
     *) die "unknown option: $1 (try --help)" ;;
@@ -141,9 +144,13 @@ render() { sed "s|__HOME__|$HOME|g" "$1" > "$2"; }
 info "Installing dotfiles"
 install_file "$REPO_DIR/config/labwc/rc.xml"              "$HOME/.config/labwc/rc.xml"
 install_file "$REPO_DIR/config/labwc/autostart"           "$HOME/.config/labwc/autostart"
-install_file "$REPO_DIR/config/noctalia/settings.toml"    "$HOME/.config/noctalia/settings.toml"
 install_file "$REPO_DIR/config/foot/foot.ini"             "$HOME/.config/foot/foot.ini"
 install_file "$REPO_DIR/config/hyfetch/arch_clean.txt"    "$HOME/.config/hyfetch/arch_clean.txt"
+
+noctalia_tmp="$(mktemp)"
+render "$REPO_DIR/config/noctalia/settings.toml" "$noctalia_tmp"
+install_file "$noctalia_tmp" "$HOME/.config/noctalia/settings.toml"
+rm -f "$noctalia_tmp"
 
 hyfetch_tmp="$(mktemp)"
 render "$REPO_DIR/config/hyfetch.json.in" "$hyfetch_tmp"
@@ -179,14 +186,43 @@ EOF
 fi
 
 # ── wallpaper ────────────────────────────────────────────────────────────────
-# No wallpaper is bundled (copyright). Noctalia uses its own default at
-# /usr/share/noctalia/assets/noctalia-wallpaper.png until you set one.
+# No wallpaper is bundled (copyright). Five free-use photos are downloaded
+# from Unsplash at install time; Noctalia's own default is used if that fails.
+WALL_DIR="$HOME/Pictures/Wallpapers/free-use"
 command -v xdg-user-dirs-update >/dev/null 2>&1 && xdg-user-dirs-update >/dev/null 2>&1 || true
 
+if [[ $WITH_WALLPAPERS -eq 1 ]]; then
+  info "Downloading five free-use wallpapers"
+  if "$REPO_DIR/scripts/fetch-wallpapers.sh" --dir "$WALL_DIR"; then
+    ok "wallpapers in $WALL_DIR"
+  else
+    warn "wallpaper download failed — run scripts/fetch-wallpapers.sh later"
+  fi
+else
+  info "Skipping wallpaper download (--no-wallpapers)"
+fi
+
 if command -v noctalia >/dev/null 2>&1 && noctalia msg wallpaper-get >/dev/null 2>&1; then
+  noctalia msg config-set wallpaper.directory "\"$WALL_DIR\"" >/dev/null 2>&1 || true
+
+  # On a fresh install Noctalia still shows its own default image. Replace it
+  # with the first downloaded wallpaper; never touch a wallpaper already set.
+  current="$(noctalia msg wallpaper-get 2>/dev/null || true)"
+  if [[ -z $current || $current == /usr/share/noctalia/assets/noctalia-wallpaper.png ]]; then
+    first=""
+    if [[ -d $WALL_DIR ]]; then
+      for candidate in "$WALL_DIR"/*.jpg "$WALL_DIR"/*.jpeg "$WALL_DIR"/*.png "$WALL_DIR"/*.webp; do
+        if [[ -f $candidate ]]; then first=$candidate; break; fi
+      done
+    fi
+    if [[ -n $first ]]; then
+      noctalia msg wallpaper-set "$first" >/dev/null 2>&1 && ok "wallpaper set to ${first##*/}"
+    fi
+  fi
+
   noctalia msg color-scheme-set wallpaper vibrant >/dev/null 2>&1 && ok "palette follows the wallpaper (vibrant)"
 else
-  warn "Noctalia is not running — colours apply on next login"
+  warn "Noctalia is not running — pick a wallpaper with Super+w after login"
 fi
 
 # ── system-level (opt-in) ────────────────────────────────────────────────────
@@ -233,9 +269,11 @@ Next steps:
   2. At the ly prompt, choose ${C_BOLD}labwc${C_RESET}.
   3. Super+Space opens the launcher, Super+s the control centre.
 
+Wallpapers:
+  Super+w        wallpaper picker
+  Super+Shift+w  next wallpaper
+  Five free-use photos live in ~/Pictures/Wallpapers/free-use/
+
 If Noctalia looks unstyled on first login, run:
   noctalia msg config-reload
-
-No wallpaper is bundled — Noctalia shows its default until you set one:
-  noctalia msg wallpaper-set /path/to/image.png
 EOF

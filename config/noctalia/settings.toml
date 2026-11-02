@@ -3,6 +3,12 @@ source = "wallpaper"
 wallpaper_scheme = "vibrant"
 mode = "dark"
 
+# ── Wallpaper ────────────────────────────────────────────────────────────────
+# Folder browsed by the picker (Super+w). Populated by
+# scripts/fetch-wallpapers.sh; nothing is bundled with this repo.
+[wallpaper]
+directory = "__HOME__/Pictures/Wallpapers/free-use"
+
 # ── Bar ──────────────────────────────────────────────────────────────────────
 # Floating, slim, full-feature bar. Status icons are grouped into two capsules
 # instead of sitting loose on the bar.

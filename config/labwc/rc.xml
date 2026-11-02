@@ -75,6 +75,18 @@
       </action>
     </keybind>
 
+    <!-- Wallpapers: picker grid, or cycle straight to the next one -->
+    <keybind key="W-w">
+      <action name="Execute">
+        <command>noctalia msg panel-toggle wallpaper</command>
+      </action>
+    </keybind>
+    <keybind key="W-S-w">
+      <action name="Execute">
+        <command>noctalia msg wallpaper-next</command>
+      </action>
+    </keybind>
+
     <!-- App launchers -->
     <keybind key="W-q">
       <action name="Close"/>

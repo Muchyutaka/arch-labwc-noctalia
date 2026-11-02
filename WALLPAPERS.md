@@ -1,0 +1,47 @@
+# Wallpapers
+
+This repo ships **no image files**. `scripts/fetch-wallpapers.sh` downloads five
+photos from [Unsplash](https://unsplash.com/) into
+`~/Pictures/Wallpapers/free-use/` on demand.
+
+## Licence
+
+The photos are used under the [Unsplash License](https://unsplash.com/license):
+free to download and use for personal or commercial purposes, no permission or
+attribution required. Attribution is appreciated but not obligatory.
+
+Unsplash is the source; the files are not redistributed by this repository.
+
+## The five photos
+
+| File | Subject | Photo |
+|---|---|---|
+| `01-milky-way-peaks.jpg` | Snowy peaks under the Milky Way | <https://images.unsplash.com/photo-1519681393784-d120267933ba> |
+| `02-valley-mist.jpg` | Cloud spilling over a green escarpment at sunrise | <https://images.unsplash.com/photo-1470071459604-3b5ec3a7fe05> |
+| `03-forest-sunlight.jpg` | Sunlight filtering through a dense forest | <https://images.unsplash.com/photo-1441974231531-c6227db76b6e> |
+| `04-sea-of-clouds.jpg` | Snow-dusted peaks above a sea of cloud at sunset | <https://images.unsplash.com/photo-1506905925346-21bda4d32df4> |
+| `05-glacier-valley.jpg` | Glacier valley between snowy mountains | <https://images.unsplash.com/photo-1464822759023-fed622ff2c3b> |
+
+Each is downloaded as a 1920 px JPEG from `images.unsplash.com`.
+
+## Getting them
+
+```bash
+./scripts/fetch-wallpapers.sh          # download missing files
+./scripts/fetch-wallpapers.sh --force  # re-download all five
+./scripts/fetch-wallpapers.sh --dir ~/Pictures/Wallpapers   # custom folder
+```
+
+The script also copies this file to `CREDITS.md` in the wallpaper folder and
+points Noctalia's picker at that folder.
+
+## Switching
+
+- `Super+w` — open the wallpaper picker (thumbnail grid)
+- `Super+Shift+w` — next wallpaper
+- Click the wallpaper icon in the bar — same picker
+- `noctalia msg wallpaper-set /path/to/image.jpg` — set an exact file
+- `noctalia msg wallpaper-next` / `wallpaper-previous` / `wallpaper-random`
+
+Noctalia derives the whole palette from the active wallpaper, so the bar and
+panels recolour themselves as soon as you switch.
