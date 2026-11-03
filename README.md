@@ -31,7 +31,6 @@ A Wayland desktop for Arch Linux built on labwc and Noctalia v5, with Catppuccin
 - Arch Linux, x86_64
 - Wayland-capable GPU (Intel/AMD; NVIDIA untested)
 - ~2 GB free disk
-- A user in the `wheel` group with `sudo`
 
 ## Install
 
