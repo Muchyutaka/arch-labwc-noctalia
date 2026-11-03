@@ -16,15 +16,11 @@ A Wayland desktop for Arch Linux built on labwc and Noctalia v5, with Catppuccin
 
 ## Features
 
-- labwc with 4 workspaces, 10 px gaps, a thumbnail switcher, and keyboard resize
-- Noctalia v5 bar, launcher, control centre, notifications, and a palette taken from the wallpaper
-- foot with Catppuccin Mocha, JetBrains Mono Nerd Font, and 0.96 alpha
-- hyfetch at login with a clean Arch logo
+- very tuff look
+- hyfetch at new terminal with a clean system info
 - Screenshots of a region, fullscreen, or a window, saved to `~/Pictures` and the clipboard
 - Screen recording to `~/Videos/Recordings`, with the default audio output; `Super+Shift+r` starts and stops it
 - A wallpaper picker, next/previous switching, and an "add your own" file chooser
-- Nautilus with MTP and archive support
-- Flatpak; add Flathub with `flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo`
 - Optional apps: Discord, Brave, LocalSend, Amberol, Antumbra/Penumbra, Brokkr Flash, and developer extras, each asked about during install
 
 ## Requirements
@@ -155,8 +151,6 @@ systemctl enable NetworkManager
 systemctl enable bluetooth
 systemctl enable ly@tty1
 ```
-
-The repo applies no tuning: no sysctl, udev, kernel parameters, zram, I/O scheduler, `/etc/fstab`, bootloader, or partition changes.
 
 ## Repo layout
 
