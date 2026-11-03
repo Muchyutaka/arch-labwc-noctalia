@@ -1,6 +1,6 @@
 # arch-labwc-noctalia
 
-A Wayland desktop for Arch Linux built on labwc and Noctalia v5, with Catppuccin foot and a palette taken from the current wallpaper. Idle memory is about 400 MB.
+A Wayland desktop for Arch Linux built on labwc and Noctalia v5, with Catppuccin foot and a palette taken from the current wallpaper.
 
 ![Desktop](assets/screenshots/desktop.jpg)
 
