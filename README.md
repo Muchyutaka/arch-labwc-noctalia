@@ -1,5 +1,7 @@
 # arch-labwc-noctalia
 
+> **Note:** I used AI to help in making the install script
+
 A Wayland desktop for Arch Linux built on labwc and Noctalia v5, with Catppuccin foot and a palette taken from the current wallpaper.
 
 ![Desktop](assets/screenshots/desktop.jpg)
