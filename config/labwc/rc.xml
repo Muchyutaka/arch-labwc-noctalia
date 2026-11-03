@@ -86,6 +86,13 @@
         <command>noctalia msg wallpaper-next</command>
       </action>
     </keybind>
+    <!-- Add your own wallpaper: pick an image, copy it into the wallpaper
+         folder shown by Super+W, and apply it -->
+    <keybind key="W-A-w">
+      <action name="Execute">
+        <command>__HOME__/.local/bin/wallpaper-add</command>
+      </action>
+    </keybind>
 
     <!-- App launchers -->
     <keybind key="W-q">
@@ -93,6 +100,9 @@
     </keybind>
     <keybind key="W-S-f">
       <action name="ToggleFullscreen"/>
+    </keybind>
+    <keybind key="W-C-S-f">
+      <action name="ToggleMaximize"/>
     </keybind>
     <keybind key="W-z">
       <action name="Execute">
@@ -104,6 +114,17 @@
         <command>nautilus</command>
       </action>
     </keybind>
+
+    <!-- Keyboard window resizing: W-C-<arrow> pushes that edge out,
+         W-C-S-<arrow> pulls it back in -->
+    <keybind key="W-C-Left"><action name="ResizeRelative" left="20"/></keybind>
+    <keybind key="W-C-Right"><action name="ResizeRelative" right="20"/></keybind>
+    <keybind key="W-C-Up"><action name="ResizeRelative" top="20"/></keybind>
+    <keybind key="W-C-Down"><action name="ResizeRelative" bottom="20"/></keybind>
+    <keybind key="W-C-S-Left"><action name="ResizeRelative" left="-20"/></keybind>
+    <keybind key="W-C-S-Right"><action name="ResizeRelative" right="-20"/></keybind>
+    <keybind key="W-C-S-Up"><action name="ResizeRelative" top="-20"/></keybind>
+    <keybind key="W-C-S-Down"><action name="ResizeRelative" bottom="-20"/></keybind>
 
     <!-- Workspaces -->
     <keybind key="W-1"><action name="GoToDesktop" to="1"/></keybind>

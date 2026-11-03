@@ -1,0 +1,9 @@
+[Desktop Entry]
+Type=Application
+Name=Add Wallpaper
+Comment=Copy your own images into the Noctalia wallpaper picker
+Exec=__HOME__/.local/bin/wallpaper-add
+Icon=preferences-desktop-wallpaper
+Terminal=false
+Categories=Settings;DesktopSettings;
+Keywords=wallpaper;background;add;import;

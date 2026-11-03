@@ -10,6 +10,10 @@ slurp
 wl-clipboard
 brightnessctl
 
+# ── File chooser for scripts/wallpaper-add ───────────────────────────────────
+zenity
+xdg-desktop-portal-gtk
+
 # ── Audio ────────────────────────────────────────────────────────────────────
 pipewire
 pipewire-pulse

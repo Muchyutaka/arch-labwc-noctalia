@@ -32,16 +32,21 @@ Each is downloaded as a 1920 px JPEG from `images.unsplash.com`.
 ./scripts/fetch-wallpapers.sh --dir ~/Pictures/Wallpapers   # custom folder
 ```
 
-The script also copies this file to `CREDITS.md` in the wallpaper folder and
-points Noctalia's picker at that folder.
+The script also copies this file to `CREDITS.md` in the wallpaper folder. When
+the default `free-use/` folder is used, Noctalia's picker stays on
+`~/Pictures/Wallpapers` so your own images remain visible.
 
 ## Switching
 
-- `Super+w` — open the wallpaper picker (thumbnail grid)
-- `Super+Shift+w` — next wallpaper
+- `Super+w` — open the wallpaper picker (browses `~/Pictures/Wallpapers`)
+- `Super+Shift+w` — next wallpaper (includes `free-use/`)
+- `Super+Alt+w` — add your own image via a file picker
 - Click the wallpaper icon in the bar — same picker
 - `noctalia msg wallpaper-set /path/to/image.jpg` — set an exact file
 - `noctalia msg wallpaper-next` / `wallpaper-previous` / `wallpaper-random`
+
+Drop your own images into `~/Pictures/Wallpapers` to have them appear in the
+picker alongside the downloaded set.
 
 Noctalia derives the whole palette from the active wallpaper, so the bar and
 panels recolour themselves as soon as you switch.

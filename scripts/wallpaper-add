@@ -1,0 +1,53 @@
+#!/usr/bin/env bash
+# Add your own wallpapers to the Noctalia wallpaper picker.
+#
+# Opens a file chooser, copies the chosen image(s) into the folder the
+# Super+W picker browses (~/Pictures/Wallpapers), and applies the image
+# immediately when exactly one file was picked.
+
+set -euo pipefail
+
+dir="${WALLPAPER_DIR:-$HOME/Pictures/Wallpapers}"
+mkdir -p "$dir"
+
+if (( $# )); then
+  picked=("$@")
+else
+  mapfile -t picked < <(
+    zenity --file-selection \
+      --title="Add wallpaper" \
+      --multiple --separator=$'\n' \
+      --file-filter='Images | *.png *.jpg *.jpeg *.webp *.bmp *.gif *.avif *.heic *.heif *.jxl *.PNG *.JPG *.JPEG *.WEBP' \
+      2>/dev/null
+  ) || true
+fi
+
+(( ${#picked[@]} )) || exit 0
+
+added=()
+for src in "${picked[@]}"; do
+  [[ -f $src ]] || continue
+  name=$(basename -- "$src")
+  dest="$dir/$name"
+
+  # Never overwrite a different existing file with the same name.
+  if [[ -e $dest ]] && ! cmp -s -- "$src" "$dest"; then
+    stem="${name%.*}"
+    ext="${name##*.}"
+    n=1
+    while [[ -e "$dir/${stem}-${n}.${ext}" ]]; do
+      n=$((n + 1))
+    done
+    dest="$dir/${stem}-${n}.${ext}"
+  fi
+
+  [[ -e $dest ]] || cp -- "$src" "$dest"
+  added+=("$dest")
+done
+
+(( ${#added[@]} )) || exit 0
+
+# A single pick is applied right away; multiple picks are only added.
+if (( ${#added[@]} == 1 )) && [[ -z ${WALLPAPER_NO_APPLY:-} ]]; then
+  noctalia msg wallpaper-set "${added[0]}" >/dev/null 2>&1 || true
+fi

@@ -98,10 +98,15 @@ if [[ -f $REPO_DIR/WALLPAPERS.md ]]; then
   install -m 0644 "$REPO_DIR/WALLPAPERS.md" "$DEST/CREDITS.md"
 fi
 
-# Point Noctalia's wallpaper picker at this folder. This does not change the
-# wallpaper that is currently on screen.
+# Point Noctalia's wallpaper picker at the folder holding this set, but keep
+# ~/Pictures/Wallpapers as the browse root so the user's own images stay
+# visible next to the free-use subfolder.
 if command -v noctalia >/dev/null 2>&1; then
-  noctalia msg config-set wallpaper.directory "\"$DEST\"" >/dev/null 2>&1 || true
+  browse="$DEST"
+  if [[ $DEST == "$HOME/Pictures/Wallpapers/free-use" ]]; then
+    browse="$HOME/Pictures/Wallpapers"
+  fi
+  noctalia msg config-set wallpaper.directory "\"$browse\"" >/dev/null 2>&1 || true
 fi
 
 echo "Wallpapers in $DEST (${downloaded} downloaded, ${skipped} already present)"

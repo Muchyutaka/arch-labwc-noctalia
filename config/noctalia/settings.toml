@@ -4,10 +4,14 @@ wallpaper_scheme = "vibrant"
 mode = "dark"
 
 # ── Wallpaper ────────────────────────────────────────────────────────────────
-# Folder browsed by the picker (Super+w). Populated by
-# scripts/fetch-wallpapers.sh; nothing is bundled with this repo.
+# Folder browsed by the picker (Super+w). Your own images can live here too;
+# scripts/fetch-wallpapers.sh puts five free-use Unsplash photos in free-use/.
 [wallpaper]
-directory = "__HOME__/Pictures/Wallpapers/free-use"
+directory = "__HOME__/Pictures/Wallpapers"
+
+# Include subfolders (e.g. free-use/) when cycling wallpapers.
+[wallpaper.automation]
+recursive = true
 
 # ── Bar ──────────────────────────────────────────────────────────────────────
 # Floating, slim, full-feature bar. Status icons are grouped into two capsules

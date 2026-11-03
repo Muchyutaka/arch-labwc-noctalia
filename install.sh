@@ -141,21 +141,35 @@ install_file() {
 
 render() { sed "s|__HOME__|$HOME|g" "$1" > "$2"; }
 
+# Install a template after substituting __HOME__, optionally forcing a mode.
+install_rendered() {
+  local src=$1 dst=$2 mode=${3:-0644} tmp
+  tmp="$(mktemp)"
+  render "$src" "$tmp"
+  install_file "$tmp" "$dst"
+  chmod "$mode" "$dst"
+  rm -f "$tmp"
+}
+
+# Install a file and make it executable (scripts).
+install_exec() {
+  install_file "$1" "$2"
+  chmod 0755 "$2"
+}
+
 info "Installing dotfiles"
-install_file "$REPO_DIR/config/labwc/rc.xml"              "$HOME/.config/labwc/rc.xml"
-install_file "$REPO_DIR/config/labwc/autostart"           "$HOME/.config/labwc/autostart"
-install_file "$REPO_DIR/config/foot/foot.ini"             "$HOME/.config/foot/foot.ini"
-install_file "$REPO_DIR/config/hyfetch/arch_clean.txt"    "$HOME/.config/hyfetch/arch_clean.txt"
+install_rendered "$REPO_DIR/config/labwc/rc.xml"        "$HOME/.config/labwc/rc.xml"
+install_file     "$REPO_DIR/config/labwc/autostart"     "$HOME/.config/labwc/autostart"
+install_file     "$REPO_DIR/config/foot/foot.ini"       "$HOME/.config/foot/foot.ini"
+install_file     "$REPO_DIR/config/hyfetch/arch_clean.txt" "$HOME/.config/hyfetch/arch_clean.txt"
 
-noctalia_tmp="$(mktemp)"
-render "$REPO_DIR/config/noctalia/settings.toml" "$noctalia_tmp"
-install_file "$noctalia_tmp" "$HOME/.config/noctalia/settings.toml"
-rm -f "$noctalia_tmp"
-
-hyfetch_tmp="$(mktemp)"
-render "$REPO_DIR/config/hyfetch.json.in" "$hyfetch_tmp"
-install_file "$hyfetch_tmp" "$HOME/.config/hyfetch.json"
-rm -f "$hyfetch_tmp"
+install_rendered "$REPO_DIR/config/noctalia/settings.toml" "$HOME/.config/noctalia/settings.toml"
+install_rendered "$REPO_DIR/config/hyfetch.json.in"        "$HOME/.config/hyfetch.json"
+install_rendered "$REPO_DIR/config/applications/wallpaper-add.desktop.in" \
+                 "$HOME/.local/share/applications/wallpaper-add.desktop"
+install_exec     "$REPO_DIR/scripts/wallpaper-add"         "$HOME/.local/bin/wallpaper-add"
+command -v update-desktop-database >/dev/null 2>&1 \
+  && update-desktop-database "$HOME/.local/share/applications" >/dev/null 2>&1 || true
 
 # hyfetch on every new interactive shell (idempotent)
 BASHRC="$HOME/.bashrc"
@@ -188,7 +202,9 @@ fi
 # ── wallpaper ────────────────────────────────────────────────────────────────
 # No wallpaper is bundled (copyright). Five free-use photos are downloaded
 # from Unsplash at install time; Noctalia's own default is used if that fails.
-WALL_DIR="$HOME/Pictures/Wallpapers/free-use"
+WALL_ROOT="$HOME/Pictures/Wallpapers"
+WALL_DIR="$WALL_ROOT/free-use"
+mkdir -p "$WALL_ROOT"
 command -v xdg-user-dirs-update >/dev/null 2>&1 && xdg-user-dirs-update >/dev/null 2>&1 || true
 
 if [[ $WITH_WALLPAPERS -eq 1 ]]; then
@@ -203,7 +219,10 @@ else
 fi
 
 if command -v noctalia >/dev/null 2>&1 && noctalia msg wallpaper-get >/dev/null 2>&1; then
-  noctalia msg config-set wallpaper.directory "\"$WALL_DIR\"" >/dev/null 2>&1 || true
+  # The picker browses the parent folder, so your own images show up next to
+  # the downloaded free-use set (which stays in free-use/).
+  noctalia msg config-set wallpaper.directory "\"$WALL_ROOT\"" >/dev/null 2>&1 || true
+  noctalia msg config-set wallpaper.automation.recursive true >/dev/null 2>&1 || true
 
   # On a fresh install Noctalia still shows its own default image. Replace it
   # with the first downloaded wallpaper; never touch a wallpaper already set.
@@ -272,7 +291,9 @@ Next steps:
 Wallpapers:
   Super+w        wallpaper picker
   Super+Shift+w  next wallpaper
+  Super+Alt+w    add your own wallpaper (file picker)
   Five free-use photos live in ~/Pictures/Wallpapers/free-use/
+  Your own images can be dropped in ~/Pictures/Wallpapers
 
 If Noctalia looks unstyled on first login, run:
   noctalia msg config-reload
