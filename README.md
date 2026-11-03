@@ -117,9 +117,9 @@ The picker browses `~/Pictures/Wallpapers`, so your own images sit next to the d
 
 Noctalia derives the whole palette from the active wallpaper, so the bar and panels recolour immediately. The five Unsplash photos are downloaded during install and never bundled. See [WALLPAPERS.md](WALLPAPERS.md).
 
-## What the installer changes
+## What the installer does
 
-Home directory (existing files are backed up as `*.bak.<timestamp>`):
+Home directory (existing stuff are backed up as `*.bak.<timestamp>`):
 
 ```
 ~/.config/labwc/rc.xml
@@ -150,22 +150,6 @@ System, only if you accept the prompt:
 systemctl enable NetworkManager
 systemctl enable bluetooth
 systemctl enable ly@tty1
-```
-
-## Repo layout
-
-```
-install.sh                          installer
-packages/                           base / intel / optional package lists
-config/                             dotfiles copied into $HOME
-scripts/wallpaper-add               "add your own wallpaper" file picker
-scripts/screen-record               start/stop GPU screen recording
-scripts/fetch-wallpapers.sh         downloads the five free-use wallpapers
-scripts/install-antumbra.sh         optional Antumbra (MTK) binary
-scripts/install-brokkr.sh           optional Brokkr Flash AppImage
-scripts/install-system.sh           enables services + display manager
-assets/screenshots/                 README screenshots
-WALLPAPERS.md                       wallpaper sources + licence
 ```
 
 ## Troubleshooting
