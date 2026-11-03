@@ -1,5 +1,5 @@
 # Installed automatically on Intel CPUs.
-# Drop this file if you are on AMD/ARM — the desktop itself is vendor-neutral.
+# Drop this file if you are on AMD/ARM; the desktop itself is vendor-neutral.
 intel-ucode
 intel-media-driver
 libva-intel-driver

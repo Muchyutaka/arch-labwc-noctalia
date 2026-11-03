@@ -1,6 +1,6 @@
 # arch-labwc-noctalia
 
-A lean Wayland desktop for Arch Linux: **labwc** + **Noctalia v5**, Catppuccin `foot`, and a colour scheme that follows the wallpaper. No GNOME/KDE stack — about 400 MB RAM idle.
+A Wayland desktop for Arch Linux built on labwc and Noctalia v5, with Catppuccin foot and a palette taken from the current wallpaper. Idle memory is about 400 MB.
 
 ![Desktop](assets/screenshots/desktop.jpg)
 
@@ -14,15 +14,15 @@ A lean Wayland desktop for Arch Linux: **labwc** + **Noctalia v5**, Catppuccin `
 
 ## Features
 
-- **labwc** — 4 workspaces, 10 px gaps, thumbnail switcher, keyboard resize
-- **Noctalia v5** — floating translucent bar, launcher, control centre, notifications; palette derived from the wallpaper
-- **foot** — Catppuccin Mocha, JetBrains Mono Nerd Font, 0.96 alpha
-- **hyfetch** on login with a clean Arch logo
-- **Screenshots** — region / fullscreen / window, saved to `~/Pictures` and clipboard
-- **Wallpapers** — picker, next/previous, and an "add your own" file chooser
-- **Files** — Nautilus, MTP, archive manager
-- **Flatpak** — installed; add Flathub with `flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo`
-- **Optional apps** — Discord, Brave, LocalSend, Antumbra/Penumbra, Brokkr Flash, developer extras; each one is asked about at install time
+- labwc with 4 workspaces, 10 px gaps, a thumbnail switcher, and keyboard resize
+- Noctalia v5 bar, launcher, control centre, notifications, and a palette taken from the wallpaper
+- foot with Catppuccin Mocha, JetBrains Mono Nerd Font, and 0.96 alpha
+- hyfetch at login with a clean Arch logo
+- Screenshots of a region, fullscreen, or a window, saved to `~/Pictures` and the clipboard
+- A wallpaper picker, next/previous switching, and an "add your own" file chooser
+- Nautilus with MTP and archive support
+- Flatpak; add Flathub with `flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo`
+- Optional apps: Discord, Brave, LocalSend, Antumbra/Penumbra, Brokkr Flash, and developer extras, each asked about during install
 
 ## Requirements
 
@@ -39,7 +39,7 @@ cd arch-labwc-noctalia
 ./install.sh
 ```
 
-The installer adds the base packages, copies the dotfiles (backing up anything it replaces), asks about **each optional app** (default: no), downloads five free-use wallpapers, then asks **once** about enabling services.
+The installer adds the base packages and copies the dotfiles, backing up anything it replaces. It asks separately whether to install each optional app (the default is no), downloads five free-use wallpapers, and asks once before enabling services.
 
 | Flag | Effect |
 |---|---|
@@ -48,22 +48,22 @@ The installer adds the base packages, copies the dotfiles (backing up anything i
 | `--no-wallpapers` | skip the wallpaper downloads |
 | `--optional` | install every optional app without asking |
 | `--no-optional` | skip all optional apps without asking |
-| `--yes, -y` | assume yes for every prompt (including optional apps) |
+| `--yes, -y` | assume yes for every prompt (optional apps included) |
 | `--system -y` | non-interactive, everything |
 
-After it finishes, log out and back in, then choose **labwc** at the `ly` prompt.
+After it finishes, log out and back in, then choose labwc at the `ly` prompt.
 
 ## Optional apps
 
-The default install asks about each one; press **Enter** to skip. None are required for the desktop or the keybinds.
+Press `Enter` at any prompt to skip that app. None of them are required for the desktop or the keybinds.
 
 | App | Installed as |
 |---|---|
 | Discord | `discord` (official repo) |
 | Brave | `brave-bin` (AUR) |
 | LocalSend | `localsend-bin` (AUR) |
-| Antumbra / Penumbra | GitHub release → `~/.local/bin/antumbra` + `penumbra` symlink |
-| Brokkr Flash | GitHub AppImage → `~/Applications/Brokkr.AppImage` + `brokkr-flash` wrapper (`fuse2` is installed for it) |
+| Antumbra / Penumbra | GitHub release, installed to `~/.local/bin/antumbra` with a `penumbra` symlink |
+| Brokkr Flash | GitHub AppImage into `~/Applications/Brokkr.AppImage`, plus a `brokkr-flash` wrapper (`fuse2` is installed with it) |
 | Developer extras | `android-tools`, `scrcpy`, `opencode` |
 
 Non-interactive choices:
@@ -109,13 +109,13 @@ Scroll-wheel workspace switching is deliberately disabled.
 
 The picker browses `~/Pictures/Wallpapers`, so your own images sit next to the downloaded set in `free-use/`.
 
-- `Super+w` — picker
-- `Super+Shift+w` — next wallpaper (includes subfolders)
-- `Super+Alt+w` — **Add Wallpaper**: file chooser copies the image into `~/Pictures/Wallpapers` and applies it
-- Or just drop images into `~/Pictures/Wallpapers` and reopen the picker
-- `noctalia msg wallpaper-set /path/to/image.jpg` — set an exact file
+- `Super+w` opens the picker
+- `Super+Shift+w` moves to the next wallpaper, subfolders included
+- `Super+Alt+w` opens Add Wallpaper; the file chooser copies the image into `~/Pictures/Wallpapers` and applies it
+- Images dropped into `~/Pictures/Wallpapers` appear after you reopen the picker
+- `noctalia msg wallpaper-set /path/to/image.jpg` sets an exact file
 
-Noctalia derives the whole palette from the active wallpaper, so the bar and panels recolour immediately. The five Unsplash photos are downloaded at install time, never bundled — see [WALLPAPERS.md](WALLPAPERS.md).
+Noctalia derives the whole palette from the active wallpaper, so the bar and panels recolour immediately. The five Unsplash photos are downloaded during install and never bundled. See [WALLPAPERS.md](WALLPAPERS.md).
 
 ## What the installer changes
 
@@ -151,7 +151,7 @@ systemctl enable bluetooth
 systemctl enable ly@tty1
 ```
 
-That is all. The repo applies **no tuning** — no sysctl, udev, kernel parameters, zram, I/O scheduler, `/etc/fstab`, bootloader, or partition changes.
+The repo applies no tuning: no sysctl, udev, kernel parameters, zram, I/O scheduler, `/etc/fstab`, bootloader, or partition changes.
 
 ## Repo layout
 
@@ -170,28 +170,40 @@ WALLPAPERS.md                       wallpaper sources + licence
 
 ## Troubleshooting
 
-**Bar is unstyled or the wrong colour**
+### Bar is unstyled or the wrong colour
+
 ```bash
 noctalia msg config-reload
 noctalia msg wallpaper-set ~/Pictures/Wallpapers/free-use/01-milky-way-peaks.jpg
 ```
 
-**Wallpaper picker is empty** — the downloads may have failed:
+### Wallpaper picker is empty
+
+The downloads may have failed:
+
 ```bash
 ./scripts/fetch-wallpapers.sh
 ```
 
-**Antumbra or Brokkr download failed** — GitHub may be rate-limiting the API; re-run:
+### Antumbra or Brokkr download failed
+
+GitHub may be rate-limiting the API, so re-run:
+
 ```bash
 ./scripts/install-antumbra.sh
 ./scripts/install-brokkr.sh
 ```
 
-**No polkit password dialog when mounting a disk** — make sure `polkit-gnome` is installed and the agent starts from `~/.config/labwc/autostart`.
+### No polkit password dialog when mounting a disk
 
-**hyfetch does not appear** — it only runs in a new interactive bash shell; open a new terminal.
+Make sure `polkit-gnome` is installed and the agent starts from `~/.config/labwc/autostart`.
 
-**No sound**
+### hyfetch does not appear
+
+It only runs in a new interactive bash shell; open a new terminal.
+
+### No sound
+
 ```bash
 systemctl --user enable --now pipewire pipewire-pulse wireplumber
 ```
@@ -205,4 +217,4 @@ systemctl --user enable --now pipewire pipewire-pulse wireplumber
 
 ## License
 
-MIT — see [LICENSE](LICENSE). No wallpaper image is included in this repository; the installer downloads them from Unsplash. Screenshots show the desktop with a user-supplied wallpaper.
+MIT. See [LICENSE](LICENSE). No wallpaper image is included in this repository; the installer downloads them from Unsplash. Screenshots show the desktop with a user-supplied wallpaper.

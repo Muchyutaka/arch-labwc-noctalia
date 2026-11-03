@@ -1,14 +1,15 @@
 # Wallpapers
 
-This repo ships **no image files**. `scripts/fetch-wallpapers.sh` downloads five
+This repo ships no image files. `scripts/fetch-wallpapers.sh` downloads five
 photos from [Unsplash](https://unsplash.com/) into
-`~/Pictures/Wallpapers/free-use/` on demand.
+`~/Pictures/Wallpapers/free-use/` when you run it.
 
 ## Licence
 
 The photos are used under the [Unsplash License](https://unsplash.com/license):
-free to download and use for personal or commercial purposes, no permission or
-attribution required. Attribution is appreciated but not obligatory.
+free to download and use for personal or commercial purposes, with no
+permission or attribution required. Attribution is appreciated but not
+obligatory.
 
 Unsplash is the source; the files are not redistributed by this repository.
 
@@ -32,21 +33,21 @@ Each is downloaded as a 1920 px JPEG from `images.unsplash.com`.
 ./scripts/fetch-wallpapers.sh --dir ~/Pictures/Wallpapers   # custom folder
 ```
 
-The script also copies this file to `CREDITS.md` in the wallpaper folder. When
-the default `free-use/` folder is used, Noctalia's picker stays on
+The script also copies this file to `CREDITS.md` in the wallpaper folder. With
+the default `free-use/` folder, Noctalia's picker stays on
 `~/Pictures/Wallpapers` so your own images remain visible.
 
 ## Switching
 
-- `Super+w` — open the wallpaper picker (browses `~/Pictures/Wallpapers`)
-- `Super+Shift+w` — next wallpaper (includes `free-use/`)
-- `Super+Alt+w` — add your own image via a file picker
-- Click the wallpaper icon in the bar — same picker
-- `noctalia msg wallpaper-set /path/to/image.jpg` — set an exact file
-- `noctalia msg wallpaper-next` / `wallpaper-previous` / `wallpaper-random`
+- `Super+w` opens the wallpaper picker, which browses `~/Pictures/Wallpapers`
+- `Super+Shift+w` switches to the next wallpaper, including those in `free-use/`
+- `Super+Alt+w` adds your own image through a file picker
+- The wallpaper icon in the bar opens the same picker
+- `noctalia msg wallpaper-set /path/to/image.jpg` sets an exact file
+- `noctalia msg wallpaper-next`, `wallpaper-previous`, or `wallpaper-random`
 
-Drop your own images into `~/Pictures/Wallpapers` to have them appear in the
+Drop your own images into `~/Pictures/Wallpapers` and they appear in the
 picker alongside the downloaded set.
 
 Noctalia derives the whole palette from the active wallpaper, so the bar and
-panels recolour themselves as soon as you switch.
+panels recolour as soon as you switch.

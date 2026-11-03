@@ -1,15 +1,15 @@
 #!/usr/bin/env bash
 #
-# arch-labwc-noctalia — installer
+# arch-labwc-noctalia installer
 #
 # Reproduces this desktop on a fresh Arch Linux install:
 #   labwc + Noctalia v5, Catppuccin-flavoured foot, hyfetch on login,
 #   screenshot keybinds, and a handful of enabled services.
 #
-# Safe by design:
-#   * never deletes anything — existing files are backed up as <file>.bak.<stamp>
+# Safety:
+#   * nothing is deleted; existing files are backed up as <file>.bak.<stamp>
 #   * system-level changes are opt-in and only touch files listed in README
-#   * no bootloader, partition table or fstab changes, ever
+#   * no bootloader, partition table, or fstab changes
 #
 set -euo pipefail
 
@@ -73,7 +73,7 @@ done
 
 # ── preflight ────────────────────────────────────────────────────────────────
 [[ $EUID -eq 0 ]] && die "Run this as your normal user, not as root."
-[[ -f /etc/arch-release ]] || warn "This does not look like Arch Linux — continuing anyway."
+[[ -f /etc/arch-release ]] || warn "This does not look like Arch Linux. Continuing anyway."
 command -v sudo >/dev/null 2>&1 || die "sudo is required. Install it and add yourself to wheel first."
 command -v pacman >/dev/null 2>&1 || die "pacman not found."
 
@@ -144,7 +144,7 @@ if [[ $WITH_PACKAGES -eq 1 ]]; then
   if grep -qi 'genuineintel' /proc/cpuinfo 2>/dev/null; then
     install_list "$REPO_DIR/packages/intel.txt"
   else
-    info "Non-Intel CPU — skipping packages/intel.txt"
+    info "Non-Intel CPU, skipping packages/intel.txt"
   fi
 
   # ── optional apps: one question each, default no ───────────────────────────
@@ -160,7 +160,7 @@ if [[ $WITH_PACKAGES -eq 1 ]]; then
     if [[ $WITH_OPTIONAL == 1 ]]; then
       info "Installing all optional apps (--optional)"
     else
-      info "Optional apps — press Enter to skip any"
+      info "Optional apps: press Enter to skip any"
     fi
     ask_optional "Discord" "chat client" && optional_pacman+=(discord)
     ask_optional "Brave" "browser, from the AUR" && optional_aur+=(brave-bin)
@@ -185,7 +185,7 @@ if [[ $WITH_PACKAGES -eq 1 ]]; then
     if "$REPO_DIR/scripts/$script"; then
       ok "optional app installed via scripts/$script"
     else
-      warn "scripts/$script failed — re-run it later"
+      warn "scripts/$script failed, re-run it later"
     fi
   done
 else
@@ -297,7 +297,7 @@ if [[ $WITH_WALLPAPERS -eq 1 ]]; then
   if "$REPO_DIR/scripts/fetch-wallpapers.sh" --dir "$WALL_DIR"; then
     ok "wallpapers in $WALL_DIR"
   else
-    warn "wallpaper download failed — run scripts/fetch-wallpapers.sh later"
+    warn "wallpaper download failed, run scripts/fetch-wallpapers.sh later"
   fi
 else
   info "Skipping wallpaper download (--no-wallpapers)"
@@ -326,7 +326,7 @@ if command -v noctalia >/dev/null 2>&1 && noctalia msg wallpaper-get >/dev/null 
 
   noctalia msg color-scheme-set wallpaper vibrant >/dev/null 2>&1 && ok "palette follows the wallpaper (vibrant)"
 else
-  warn "Noctalia is not running — pick a wallpaper with Super+w after login"
+  warn "Noctalia is not running. Pick a wallpaper with Super+w after login"
 fi
 
 # ── system-level (opt-in) ────────────────────────────────────────────────────

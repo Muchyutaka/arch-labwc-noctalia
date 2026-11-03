@@ -22,7 +22,7 @@ for svc in NetworkManager bluetooth; do
   if systemctl list-unit-files --no-legend "$svc.service" 2>/dev/null | grep -q .; then
     systemctl enable --now "$svc.service" 2>/dev/null && ok "$svc" || warn "could not enable $svc"
   else
-    warn "$svc not installed — skipping"
+    warn "$svc not installed, skipping"
   fi
 done
 
@@ -31,10 +31,10 @@ if command -v ly >/dev/null 2>&1; then
   if [[ -z $current || $current == *ly* ]]; then
     systemctl enable ly@tty1.service 2>/dev/null && ok "ly enabled on tty1"
   else
-    warn "another display manager is configured ($current) — leaving it alone"
+    warn "another display manager is configured ($current), leaving it alone"
   fi
 else
-  warn "ly not installed — start the session with 'labwc' from a TTY"
+  warn "ly not installed. Start the session with 'labwc' from a TTY"
 fi
 
 cat <<'EOF'
@@ -42,5 +42,5 @@ cat <<'EOF'
 System setup complete.
 
   * NetworkManager, Bluetooth and ly are enabled.
-  * No tuning was applied — this repo ships plain, default settings.
+  * No tuning was applied. This repo ships plain, default settings.
 EOF
