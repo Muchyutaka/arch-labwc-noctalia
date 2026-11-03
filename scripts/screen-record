@@ -29,7 +29,7 @@ pattern='^(.*/)?gpu-screen-recorder( |$)'
 
 if pgrep -u "$UID" -f "$pattern" >/dev/null 2>&1; then
   pkill -u "$UID" -SIGINT -f "$pattern" || true
-  notify "Recording stopped" "Saved in $record_dir"
+  notify "Screen recording stopped" "Saved in $record_dir"
   exit 0
 fi
 
@@ -48,8 +48,8 @@ pid=$!
 sleep 0.7
 
 if kill -0 "$pid" 2>/dev/null; then
-  notify "Recording started" "${file##*/}"
+  notify "Screen recording started" "${file##*/}"
 else
-  notify "Recording failed" "See $log"
+  notify "Screen recording failed" "See $log"
   exit 1
 fi
