@@ -21,7 +21,8 @@ A lean Wayland desktop for Arch Linux: **labwc** + **Noctalia v5**, Catppuccin `
 - **Screenshots** — region / fullscreen / window, saved to `~/Pictures` and clipboard
 - **Wallpapers** — picker, next/previous, and an "add your own" file chooser
 - **Files** — Nautilus, MTP, archive manager
-- **Apps** — Brave, Discord, LocalSend (AUR), Flatpak + Flathub
+- **Flatpak** — installed; add Flathub with `flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo`
+- **Optional apps** — Discord, Brave, LocalSend, Antumbra/Penumbra, Brokkr Flash, developer extras; each one is asked about at install time
 
 ## Requirements
 
@@ -38,16 +39,48 @@ cd arch-labwc-noctalia
 ./install.sh
 ```
 
-The installer adds packages, copies the dotfiles (backing up anything it replaces), downloads five free-use wallpapers, then asks **once** about enabling services.
+The installer adds the base packages, copies the dotfiles (backing up anything it replaces), asks about **each optional app** (default: no), downloads five free-use wallpapers, then asks **once** about enabling services.
 
 | Flag | Effect |
 |---|---|
 | `--no-packages` | dotfiles + wallpapers only |
 | `--no-system` | skip enabling services / display manager |
 | `--no-wallpapers` | skip the wallpaper downloads |
+| `--optional` | install every optional app without asking |
+| `--no-optional` | skip all optional apps without asking |
+| `--yes, -y` | assume yes for every prompt (including optional apps) |
 | `--system -y` | non-interactive, everything |
 
 After it finishes, log out and back in, then choose **labwc** at the `ly` prompt.
+
+## Optional apps
+
+The default install asks about each one; press **Enter** to skip. None are required for the desktop or the keybinds.
+
+| App | Installed as |
+|---|---|
+| Discord | `discord` (official repo) |
+| Brave | `brave-bin` (AUR) |
+| LocalSend | `localsend-bin` (AUR) |
+| Antumbra / Penumbra | GitHub release → `~/.local/bin/antumbra` + `penumbra` symlink |
+| Brokkr Flash | GitHub AppImage → `~/Applications/Brokkr.AppImage` + `brokkr-flash` wrapper (`fuse2` is installed for it) |
+| Developer extras | `android-tools`, `scrcpy`, `opencode` |
+
+Non-interactive choices:
+
+```bash
+./install.sh --optional      # install all of the above
+./install.sh --no-optional   # skip all of them
+```
+
+Install or update the two user-local tools later:
+
+```bash
+./scripts/install-antumbra.sh
+./scripts/install-brokkr.sh
+```
+
+Antumbra and Brokkr talk to USB devices. If access is denied, add udev rules for your device; this repo does not install any.
 
 ## Keybinds
 
@@ -59,7 +92,7 @@ After it finishes, log out and back in, then choose **labwc** at the `ly` prompt
 | `Super+w` | Wallpaper picker |
 | `Super+Shift+w` | Next wallpaper |
 | `Super+Alt+w` | Add your own wallpaper |
-| `Super+z` / `Super+f` | Brave / Nautilus |
+| `Super+z` / `Super+f` | Brave (if installed) / Nautilus |
 | `Super+q` | Close window |
 | `Super+Shift+f` | Fullscreen |
 | `Super+Ctrl+Shift+f` | Maximize |
@@ -97,8 +130,17 @@ Home directory (existing files are backed up as `*.bak.<timestamp>`):
 ~/.config/hyfetch/arch_clean.txt
 ~/.local/bin/wallpaper-add
 ~/.local/share/applications/wallpaper-add.desktop
-~/.bashrc                       (one guarded block appended)
+~/.bashrc                       (hyfetch + ~/.local/bin PATH blocks)
 ~/Pictures/Wallpapers/          (free-use/ holds the downloaded photos)
+```
+
+Optional apps, only when you select them:
+
+```
+~/.local/bin/antumbra + penumbra
+~/Applications/Brokkr.AppImage
+~/.local/bin/brokkr-flash
+~/.local/share/applications/brokkr-flash.desktop
 ```
 
 System, only if you accept the prompt:
@@ -115,10 +157,12 @@ That is all. The repo applies **no tuning** — no sysctl, udev, kernel paramete
 
 ```
 install.sh                          installer
-packages/                           base / intel / aur / optional package lists
+packages/                           base / intel / optional package lists
 config/                             dotfiles copied into $HOME
 scripts/wallpaper-add               "add your own wallpaper" file picker
 scripts/fetch-wallpapers.sh         downloads the five free-use wallpapers
+scripts/install-antumbra.sh         optional Antumbra (MTK) binary
+scripts/install-brokkr.sh           optional Brokkr Flash AppImage
 scripts/install-system.sh           enables services + display manager
 assets/screenshots/                 README screenshots
 WALLPAPERS.md                       wallpaper sources + licence
@@ -135,6 +179,12 @@ noctalia msg wallpaper-set ~/Pictures/Wallpapers/free-use/01-milky-way-peaks.jpg
 **Wallpaper picker is empty** — the downloads may have failed:
 ```bash
 ./scripts/fetch-wallpapers.sh
+```
+
+**Antumbra or Brokkr download failed** — GitHub may be rate-limiting the API; re-run:
+```bash
+./scripts/install-antumbra.sh
+./scripts/install-brokkr.sh
 ```
 
 **No polkit password dialog when mounting a disk** — make sure `polkit-gnome` is installed and the agent starts from `~/.config/labwc/autostart`.

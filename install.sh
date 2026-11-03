@@ -19,6 +19,7 @@ STAMP="$(date +%Y%m%d-%H%M%S)"
 WITH_PACKAGES=1
 WITH_SYSTEM="ask"
 WITH_WALLPAPERS=1
+WITH_OPTIONAL="ask"
 ASSUME_YES=0
 
 # ── pretty output ────────────────────────────────────────────────────────────
@@ -43,12 +44,15 @@ Options:
   --no-packages    Skip pacman/AUR installation (configs only)
   --no-system      Skip enabling services and the display manager
   --no-wallpapers  Skip downloading the five free-use wallpapers
+  --optional       Install every optional app without asking
+  --no-optional    Skip all optional apps without asking
   --system         Enable services and display manager without asking
   --yes, -y        Assume "yes" for every prompt
   -h, --help       Show this help
 
-Without flags the script installs packages + dotfiles + wallpapers, then
-asks once whether to apply the system-level setup.
+Without flags the script installs the base desktop + dotfiles + wallpapers,
+asks about each optional app (default: no), then asks once whether to apply
+the system-level setup.
 EOF
 }
 
@@ -57,6 +61,8 @@ while (($#)); do
     --no-packages)   WITH_PACKAGES=0 ;;
     --no-system)     WITH_SYSTEM=0 ;;
     --no-wallpapers) WITH_WALLPAPERS=0 ;;
+    --optional)      WITH_OPTIONAL=1 ;;
+    --no-optional)   WITH_OPTIONAL=0 ;;
     --system)        WITH_SYSTEM=1 ;;
     --yes|-y)      ASSUME_YES=1 ;;
     -h|--help)     usage; exit 0 ;;
@@ -99,16 +105,39 @@ ensure_yay() {
   ok "yay installed"
 }
 
-install_aur() {
-  local -a pkgs
-  mapfile -t pkgs < <(grep -vE '^[[:space:]]*(#|$)' "$REPO_DIR/packages/aur.txt")
+install_pacman_pkgs() {
+  local -a pkgs=("$@")
   ((${#pkgs[@]})) || return 0
+  info "Installing package(s): ${pkgs[*]}"
+  sudo pacman -S --needed --noconfirm "${pkgs[@]}"
+  ok "package installation done"
+}
+
+install_aur_pkgs() {
+  local -a pkgs=("$@")
+  ((${#pkgs[@]})) || return 0
+  ensure_yay
   info "Installing AUR package(s): ${pkgs[*]}"
   yay -S --needed --noconfirm \
       --answerclean None --answerdiff None --answeredit None \
       "${pkgs[@]}"
   ok "AUR packages done"
 }
+
+# Ask about one optional app. --optional installs it, --no-optional skips it,
+# -y answers yes, and a non-interactive stdin keeps the default (no).
+ask_optional() {
+  local label=$1 detail=$2 answer
+  [[ $WITH_OPTIONAL == 0 ]] && return 1
+  [[ $WITH_OPTIONAL == 1 || $ASSUME_YES -eq 1 ]] && return 0
+  [[ -t 0 ]] || return 1
+  read -r -p "  Install ${label}? (${detail}) [y/N] " answer || answer=""
+  [[ ${answer,,} == y* ]]
+}
+
+if [[ $WITH_PACKAGES -eq 0 && $WITH_OPTIONAL == 1 ]]; then
+  warn "--optional has no effect with --no-packages"
+fi
 
 if [[ $WITH_PACKAGES -eq 1 ]]; then
   install_list "$REPO_DIR/packages/base.txt"
@@ -117,8 +146,48 @@ if [[ $WITH_PACKAGES -eq 1 ]]; then
   else
     info "Non-Intel CPU — skipping packages/intel.txt"
   fi
-  ensure_yay
-  install_aur
+
+  # ── optional apps: one question each, default no ───────────────────────────
+  optional_pacman=()
+  optional_aur=()
+  optional_scripts=()
+  want_dev_extras=0
+
+  if [[ $WITH_OPTIONAL == 0 ]]; then
+    info "Skipping optional apps (--no-optional)"
+  else
+    echo
+    if [[ $WITH_OPTIONAL == 1 ]]; then
+      info "Installing all optional apps (--optional)"
+    else
+      info "Optional apps — press Enter to skip any"
+    fi
+    ask_optional "Discord" "chat client" && optional_pacman+=(discord)
+    ask_optional "Brave" "browser, from the AUR" && optional_aur+=(brave-bin)
+    ask_optional "LocalSend" "AirDrop-style file sharing, from the AUR" \
+      && optional_aur+=(localsend-bin)
+    ask_optional "Antumbra / Penumbra" "MTK flash tool, installed to ~/.local/bin" \
+      && optional_scripts+=(install-antumbra.sh)
+    if ask_optional "Brokkr Flash" "Samsung flashing tool, installed to ~/Applications"; then
+      optional_scripts+=(install-brokkr.sh)
+      optional_pacman+=(fuse2)   # the AppImage needs FUSE
+    fi
+    ask_optional "Developer extras" "android-tools, scrcpy, opencode" \
+      && want_dev_extras=1
+    echo
+  fi
+
+  ((${#optional_pacman[@]})) && install_pacman_pkgs "${optional_pacman[@]}"
+  ((${#optional_aur[@]})) && install_aur_pkgs "${optional_aur[@]}"
+  [[ $want_dev_extras -eq 1 ]] && install_list "$REPO_DIR/packages/optional.txt"
+
+  for script in "${optional_scripts[@]}"; do
+    if "$REPO_DIR/scripts/$script"; then
+      ok "optional app installed via scripts/$script"
+    else
+      warn "scripts/$script failed — re-run it later"
+    fi
+  done
 else
   info "Skipping package installation (--no-packages)"
 fi
@@ -197,6 +266,22 @@ fi
 # <<< arch-labwc-noctalia <<<
 EOF
   ok "added hyfetch block to ~/.bashrc"
+fi
+
+# Make user-local tools (wallpaper-add, antumbra, brokkr-flash) available.
+if grep -q 'arch-labwc-noctalia PATH' "$BASHRC"; then
+  ok "~/.bashrc already adds ~/.local/bin to PATH"
+else
+  cat >> "$BASHRC" <<'EOF'
+
+# >>> arch-labwc-noctalia PATH >>>
+case ":$PATH:" in
+    *":$HOME/.local/bin:"*) ;;
+    *) export PATH="$HOME/.local/bin:$PATH" ;;
+esac
+# <<< arch-labwc-noctalia PATH <<<
+EOF
+  ok "added ~/.local/bin to PATH in ~/.bashrc"
 fi
 
 # ── wallpaper ────────────────────────────────────────────────────────────────
@@ -294,6 +379,11 @@ Wallpapers:
   Super+Alt+w    add your own wallpaper (file picker)
   Five free-use photos live in ~/Pictures/Wallpapers/free-use/
   Your own images can be dropped in ~/Pictures/Wallpapers
+
+Optional apps (install anytime):
+  ./install.sh --optional            install all optional apps
+  ./scripts/install-antumbra.sh      Antumbra + penumbra symlink
+  ./scripts/install-brokkr.sh        Brokkr Flash AppImage + wrapper
 
 If Noctalia looks unstyled on first login, run:
   noctalia msg config-reload

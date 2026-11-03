@@ -1,3 +1,0 @@
-# AUR packages. Installed with yay (bootstrapped automatically by install.sh).
-brave-bin
-localsend-bin

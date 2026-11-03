@@ -27,6 +27,7 @@ gst-plugin-pipewire
 networkmanager
 bluez
 bluez-utils
+curl
 
 # ── Files + apps ─────────────────────────────────────────────────────────────
 nautilus
@@ -34,7 +35,6 @@ gvfs
 gvfs-mtp
 sushi
 file-roller
-discord
 ntfs-3g
 xdg-utils
 
