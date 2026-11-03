@@ -185,23 +185,6 @@ The downloads may have failed:
 ./scripts/fetch-wallpapers.sh
 ```
 
-### Antumbra or Brokkr download failed
-
-GitHub may be rate-limiting the API, so re-run:
-
-```bash
-./scripts/install-antumbra.sh
-./scripts/install-brokkr.sh
-```
-
-### No polkit password dialog when mounting a disk
-
-Make sure `polkit-gnome` is installed and the agent starts from `~/.config/labwc/autostart`.
-
-### hyfetch does not appear
-
-It only runs in a new interactive bash shell; open a new terminal.
-
 ### No sound
 
 ```bash
