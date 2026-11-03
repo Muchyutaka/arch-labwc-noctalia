@@ -25,7 +25,7 @@ A Wayland desktop for Arch Linux built on labwc and Noctalia v5, with Catppuccin
 - A wallpaper picker, next/previous switching, and an "add your own" file chooser
 - Nautilus with MTP and archive support
 - Flatpak; add Flathub with `flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo`
-- Optional apps: Discord, Brave, LocalSend, Antumbra/Penumbra, Brokkr Flash, and developer extras, each asked about during install
+- Optional apps: Discord, Brave, LocalSend, Amberol, Antumbra/Penumbra, Brokkr Flash, and developer extras, each asked about during install
 
 ## Requirements
 
@@ -64,6 +64,7 @@ Press `Enter` at any prompt to skip that app. None of them are required for the 
 | Discord | `discord` (official repo) |
 | Brave | `brave-bin` (AUR) |
 | LocalSend | `localsend-bin` (AUR) |
+| Amberol | `amberol` and `gst-libav` for extra codecs (official repo) |
 | Antumbra / Penumbra | GitHub release, installed to `~/.local/bin/antumbra` with a `penumbra` symlink |
 | Brokkr Flash | GitHub AppImage into `~/Applications/Brokkr.AppImage`, plus a `brokkr-flash` wrapper (`fuse2` is installed with it) |
 | Developer extras | `android-tools`, `scrcpy`, `opencode` |

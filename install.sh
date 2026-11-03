@@ -166,6 +166,8 @@ if [[ $WITH_PACKAGES -eq 1 ]]; then
     ask_optional "Brave" "browser, from the AUR" && optional_aur+=(brave-bin)
     ask_optional "LocalSend" "AirDrop-style file sharing, from the AUR" \
       && optional_aur+=(localsend-bin)
+    ask_optional "Amberol" "music player, with extra codecs" \
+      && optional_pacman+=(amberol gst-libav)
     ask_optional "Antumbra / Penumbra" "MTK flash tool, installed to ~/.local/bin" \
       && optional_scripts+=(install-antumbra.sh)
     if ask_optional "Brokkr Flash" "Samsung flashing tool, installed to ~/Applications"; then
