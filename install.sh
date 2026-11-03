@@ -237,6 +237,7 @@ install_rendered "$REPO_DIR/config/hyfetch.json.in"        "$HOME/.config/hyfetc
 install_rendered "$REPO_DIR/config/applications/wallpaper-add.desktop.in" \
                  "$HOME/.local/share/applications/wallpaper-add.desktop"
 install_exec     "$REPO_DIR/scripts/wallpaper-add"         "$HOME/.local/bin/wallpaper-add"
+install_exec     "$REPO_DIR/scripts/screen-record"         "$HOME/.local/bin/screen-record"
 command -v update-desktop-database >/dev/null 2>&1 \
   && update-desktop-database "$HOME/.local/share/applications" >/dev/null 2>&1 || true
 
@@ -372,6 +373,9 @@ Next steps:
   1. Log out and back in (or reboot) so labwc picks up the new config.
   2. At the ly prompt, choose ${C_BOLD}labwc${C_RESET}.
   3. Super+Space opens the launcher, Super+s the control centre.
+
+Screen recording:
+  Super+Shift+r  start or stop a recording, saved in ~/Videos/Recordings
 
 Wallpapers:
   Super+w        wallpaper picker

@@ -21,6 +21,7 @@ A Wayland desktop for Arch Linux built on labwc and Noctalia v5, with Catppuccin
 - foot with Catppuccin Mocha, JetBrains Mono Nerd Font, and 0.96 alpha
 - hyfetch at login with a clean Arch logo
 - Screenshots of a region, fullscreen, or a window, saved to `~/Pictures` and the clipboard
+- Screen recording to `~/Videos/Recordings`, with the default audio output; `Super+Shift+r` starts and stops it
 - A wallpaper picker, next/previous switching, and an "add your own" file chooser
 - Nautilus with MTP and archive support
 - Flatpak; add Flathub with `flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo`
@@ -101,6 +102,7 @@ Antumbra and Brokkr talk to USB devices. If access is denied, add udev rules for
 | `Super+Shift+1..4` | Move window to workspace |
 | `Super+Page Up/Down` | Previous / next workspace |
 | `Super+Ctrl+Arrow` | Resize window (add `Shift` to shrink) |
+| `Super+Shift+r` | Start or stop screen recording |
 | `Print` / `Shift+Print` / `Ctrl+Print` | Region / fullscreen / window screenshot |
 | Media + brightness keys | Volume and backlight |
 
@@ -130,6 +132,7 @@ Home directory (existing files are backed up as `*.bak.<timestamp>`):
 ~/.config/hyfetch.json
 ~/.config/hyfetch/arch_clean.txt
 ~/.local/bin/wallpaper-add
+~/.local/bin/screen-record
 ~/.local/share/applications/wallpaper-add.desktop
 ~/.bashrc                       (hyfetch + ~/.local/bin PATH blocks)
 ~/Pictures/Wallpapers/          (free-use/ holds the downloaded photos)
@@ -161,6 +164,7 @@ install.sh                          installer
 packages/                           base / intel / optional package lists
 config/                             dotfiles copied into $HOME
 scripts/wallpaper-add               "add your own wallpaper" file picker
+scripts/screen-record               start/stop GPU screen recording
 scripts/fetch-wallpapers.sh         downloads the five free-use wallpapers
 scripts/install-antumbra.sh         optional Antumbra (MTK) binary
 scripts/install-brokkr.sh           optional Brokkr Flash AppImage
@@ -185,6 +189,10 @@ The downloads may have failed:
 ```bash
 ./scripts/fetch-wallpapers.sh
 ```
+
+### Screen recording does not start
+
+Check `~/Videos/Recordings/gpu-screen-recorder.log`. The recorder needs a working GPU video encoder; the base package list includes `mesa` for AMD and Intel.
 
 ### No sound
 

@@ -10,6 +10,10 @@ slurp
 wl-clipboard
 brightnessctl
 
+# ── Screen recording ─────────────────────────────────────────────────────────
+gpu-screen-recorder
+mesa
+
 # ── File chooser for scripts/wallpaper-add ───────────────────────────────────
 zenity
 xdg-desktop-portal-gtk

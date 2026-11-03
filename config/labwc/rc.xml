@@ -64,6 +64,13 @@
         <command>noctalia msg screenshot-region</command>
       </action>
     </keybind>
+
+    <!-- Screen recording: Super+Shift+r starts or stops -->
+    <keybind key="W-S-r">
+      <action name="Execute">
+        <command>__HOME__/.local/bin/screen-record</command>
+      </action>
+    </keybind>
     <keybind key="W-s">
       <action name="Execute">
         <command>noctalia msg panel-toggle control-center</command>

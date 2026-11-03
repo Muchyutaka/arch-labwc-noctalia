@@ -1,0 +1,55 @@
+#!/usr/bin/env bash
+# Start or stop a GPU screen recording of the whole desktop.
+#
+# The first run starts recording; the next run stops it and saves the file.
+# Recordings go to ~/Videos/Recordings (or RECORD_DIR when set).
+
+set -euo pipefail
+
+videos="${XDG_VIDEOS_DIR:-}"
+if [[ -z $videos ]] && command -v xdg-user-dir >/dev/null 2>&1; then
+  videos="$(xdg-user-dir VIDEOS 2>/dev/null || true)"
+fi
+videos="${videos:-$HOME/Videos}"
+record_dir="${RECORD_DIR:-$videos/Recordings}"
+log="$record_dir/gpu-screen-recorder.log"
+
+notify() {
+  local summary=$1 body=${2:-}
+  if command -v noctalia >/dev/null 2>&1 \
+     && noctalia msg notification-show "$summary" "$body" >/dev/null 2>&1; then
+    return
+  fi
+  if command -v notify-send >/dev/null 2>&1; then
+    notify-send -a "Screen recorder" "$summary" "$body" >/dev/null 2>&1 || true
+  fi
+}
+
+pattern='^(.*/)?gpu-screen-recorder( |$)'
+
+if pgrep -u "$UID" -f "$pattern" >/dev/null 2>&1; then
+  pkill -u "$UID" -SIGINT -f "$pattern" || true
+  notify "Recording stopped" "Saved in $record_dir"
+  exit 0
+fi
+
+if ! command -v gpu-screen-recorder >/dev/null 2>&1; then
+  notify "Screen recorder missing" "Install the gpu-screen-recorder package"
+  exit 1
+fi
+
+mkdir -p "$record_dir"
+file="$record_dir/recording-$(date +%Y-%m-%d-%H-%M-%S).mp4"
+
+nohup gpu-screen-recorder -w screen -f 60 -a default_output -o "$file" \
+  >"$log" 2>&1 &
+
+pid=$!
+sleep 0.7
+
+if kill -0 "$pid" 2>/dev/null; then
+  notify "Recording started" "${file##*/}"
+else
+  notify "Recording failed" "See $log"
+  exit 1
+fi
