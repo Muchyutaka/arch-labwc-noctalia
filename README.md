@@ -21,7 +21,7 @@ A Wayland desktop for Arch Linux built on labwc and Noctalia v5, with Catppuccin
 - Screenshots of a region, fullscreen, or a window, saved to `~/Pictures` and the clipboard
 - Screen recording to `~/Videos/Recordings`, with the default audio output; `Super+Shift+r` starts and stops it
 - A wallpaper picker, next/previous switching, and an "add your own" file chooser
-- Optional apps: Discord, Brave, LocalSend, Amberol, Antumbra/Penumbra, Brokkr Flash, and developer extras, each asked about during install
+- Optional apps: Discord, Brave, LocalSend, Amberol, screen sharing, Antumbra/Penumbra, Brokkr Flash, and developer extras, each asked about during install
 
 ## Requirements
 
@@ -61,6 +61,7 @@ Press `Enter` at any prompt to skip that app. None of them are required for the 
 | Brave | `brave-bin` (AUR) |
 | LocalSend | `localsend-bin` (AUR) |
 | Amberol | `amberol` and `gst-libav` for extra codecs (official repo) |
+| Screen sharing | `xdg-desktop-portal-wlr` for browser and app screen sharing (official repo) |
 | Antumbra / Penumbra | GitHub release, installed to `~/.local/bin/antumbra` with a `penumbra` symlink |
 | Brokkr Flash | GitHub AppImage into `~/Applications/Brokkr.AppImage`, plus a `brokkr-flash` wrapper (`fuse2` is installed with it) |
 | Developer extras | `android-tools`, `scrcpy`, `opencode` |

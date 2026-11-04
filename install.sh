@@ -168,6 +168,8 @@ if [[ $WITH_PACKAGES -eq 1 ]]; then
       && optional_aur+=(localsend-bin)
     ask_optional "Amberol" "music player, with extra codecs" \
       && optional_pacman+=(amberol gst-libav)
+    ask_optional "Screen sharing" "browser and app sharing via xdg-desktop-portal-wlr" \
+      && optional_pacman+=(xdg-desktop-portal-wlr)
     ask_optional "Antumbra / Penumbra" "MTK flash tool, installed to ~/.local/bin" \
       && optional_scripts+=(install-antumbra.sh)
     if ask_optional "Brokkr Flash" "Samsung flashing tool, installed to ~/Applications"; then
